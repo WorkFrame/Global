@@ -11,7 +11,7 @@ namespace NetEti.Globals
     /// Globale Typen, Konstanten und statische Funktionen
     /// </para>
     /// <para xml:lang="en">
-    /// Function: Global types, constants and static functions
+    /// Global types, constants and static functions
     /// </para>
     /// </summary>
     /// <remarks>
@@ -64,6 +64,8 @@ namespace NetEti.Globals
 
         /* Entfällt, da IsAssignableFrom besser is (findet auch implementierte Interfaces).
            Mir war IsAssignableFrom zum Zeitpunkt der Entwicklung von DynamicIs nicht bekannt.
+           Not longer necessary, because IsAssignableFrom does a better job (recognizes implemented interfaces too).
+           I wasn't aware of IsAssignableFrom at the moment, whe I developed DynamicIs.
         /// <summary>
         /// Überprüft ob ein Objekt von einem bestimmten Typ oder einem
         /// davon abgeleiteten Typ ist.
@@ -167,6 +169,7 @@ namespace NetEti.Globals
             }
             // Ergebnisse werden gecached, da der Zugriff über
             // ManagementObjectSearcher länger dauert.
+            // Results are cached, because access via ManagementObjectSearcher is time consuming.
             if (!uncName.Equals(orgName))
             {
                 if (Global._alreadySearchedDrives.ContainsKey(logicalDriveName))
@@ -209,17 +212,17 @@ namespace NetEti.Globals
         /// </param>
         /// <returns>
         /// <para xml:lang="de">
-        /// 1 wenn Version 1 größer als Version 2 ist, 0 bei Gleichheit, ansonsten -1.
+        /// Liefert 1 wenn Version 1 größer als Version 2 ist, 0 bei Gleichheit, ansonsten -1.
         /// </para>
         /// <para xml:lang="en">
-        /// 1 if version 1 is greater than version 2, zero if equal, -1 otherways
+        /// Returns 1 if version 1 is greater than version 2, zero if equal, -1 otherways
         /// </para>
         /// </returns>
         public static int CompareVersion(string version1, string version2)
         {
             string[] ver1 = version1.Split('.');
             string[] ver2 = version2.Split('.');
-            // 26.07.2011 Nagel: kein catch
+            // 26.07.2011 Nagel: no catch
             //try
             //{
             for (int i = 0; i < (ver1.Length < ver2.Length ? ver1.Length : ver2.Length); i++)
