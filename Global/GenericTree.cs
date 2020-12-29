@@ -40,60 +40,60 @@ namespace NetEti.Globals
         /// <summary>
         /// Geht rekursiv durch den Baum und ruft für jeden Knoten die Action auf.
         /// </summary>
-        /// <param name="visitor">Der für jeden Knoten aufzurufende Callback vom Typ Func&lt;int, T, object, object&gt;</param>
+        /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Func&lt;int, T, object, object&gt;.</param>
         /// <returns>Das oberste UserObjekt für den Tree.</returns>
-        public object Traverse(Func<int, T, object, object> visitor)
+        public object Traverse(Func<int, T, object, object> callback)
         {
-            return this.traverse(0, visitor, null);
+            return this.traverse(0, callback, null);
         }
 
         /// <summary>
         /// Rekursive Hilfsroutine für die öffentliche Routine 'Traverse'.
         /// </summary>
         /// <param name="depth">Die Hierarchie-Ebene.</param>
-        /// <param name="visitor">Der aufrufende Knoten (rekursiv).</param>
+        /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Func&lt;int, T, object, object&gt;.</param>
         /// <param name="userParent">Ein User-Object, das rekursiv weitergeleitet und modifiziert wird.</param>
         /// <returns>Das oberste UserObjekt für den Tree.</returns>
-        protected virtual object traverse(int depth, Func<int, T, object, object> visitor, object userParent)
+        protected virtual object traverse(int depth, Func<int, T, object, object> callback, object userParent)
         {
-            object nextUserParent = visitor(depth, (T)this, userParent);
+            object nextUserParent = callback(depth, (T)this, userParent);
             foreach (T child in this.Children)
-                child.traverse(depth + 1, visitor, nextUserParent);
+                child.traverse(depth + 1, callback, nextUserParent);
             return nextUserParent;
         }
 
         /// <summary>
         /// Geht rekursiv durch den Baum und ruft für jeden Knoten die Action auf.
         /// </summary>
-        /// <param name="visitor">Der für jeden Knoten aufzurufende Callback</param>
-        public void Traverse(Action<int, T> visitor)
+        /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;int, T&gt;.</param>
+        public void Traverse(Action<int, T> callback)
         {
-            this.traverse(0, visitor);
+            this.traverse(0, callback);
         }
 
         /// <summary>
         /// Rekursive Hilfsroutine für die öffentliche Routine 'Traverse'.
         /// </summary>
         /// <param name="depth">Die Hierarchie-Ebene.</param>
-        /// <param name="visitor">Der aufrufende Knoten (rekursiv).</param>
-        protected virtual void traverse(int depth, Action<int, T> visitor)
+        /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;int, T&gt;.</param>
+        protected virtual void traverse(int depth, Action<int, T> callback)
         {
-            visitor(depth, (T)this);
+            callback(depth, (T)this);
             foreach (T child in this.Children)
-                child.traverse(depth + 1, visitor);
+                child.traverse(depth + 1, callback);
         }
 
         /// <summary>
         /// Hangelt sich durch den Baum nach oben (bis zur Root)
         /// und ruft für jeden Knoten die Action auf.
         /// </summary>
-        /// <param name="visitor">Der aufrufende Knoten (rekursiv).</param>
-        public void climb2Top(Action<T> visitor)
+        /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;T&gt;.</param>
+        public void climb2Top(Action<T> callback)
         {
-            visitor((T)this);
+            callback((T)this);
             if (this.Mother != null)
             {
-                Mother.climb2Top(visitor);
+                Mother.climb2Top(callback);
             }
         }
 
