@@ -57,8 +57,10 @@ namespace NetEti.Globals
         protected virtual object traverse(int depth, Func<int, T, object, object> callback, object userParent)
         {
             object nextUserParent = callback(depth, (T)this, userParent);
-            foreach (T child in this.Children)
+            foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+            {
                 child.traverse(depth + 1, callback, nextUserParent);
+            }
             return nextUserParent;
         }
 
@@ -79,8 +81,10 @@ namespace NetEti.Globals
         protected virtual void traverse(int depth, Action<int, T> callback)
         {
             callback(depth, (T)this);
-            foreach (T child in this.Children)
+            foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+            {
                 child.traverse(depth + 1, callback);
+            }
         }
 
         /// <summary>
