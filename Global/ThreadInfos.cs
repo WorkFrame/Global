@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NetEti.Globals
+﻿namespace NetEti.Globals
 {
     /// <summary>
     /// Liefert textuelle Infos über den aktuellen Thread für Debug-Zwecke.

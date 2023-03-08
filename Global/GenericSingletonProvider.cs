@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 
 namespace NetEti.Globals
@@ -42,15 +41,17 @@ namespace NetEti.Globals
           where T : class // Jede Klasse ist erlaubt
         {
             // Auf öffentlichen Konstruktor prüfen
-            ConstructorInfo checkCtor = (typeof(T)).GetConstructor(Type.EmptyTypes);
+            ConstructorInfo? checkCtor = (typeof(T)).GetConstructor(Type.EmptyTypes);
 
             /*
              * Falls es einen solchen Konstruktor gibt,
              * schmeißen wir einen Fehler, da es dem 
              * Charakter eines Singleton widerspricht.
              */
-            //if (checkCtor != null)
-            //	throw new InvalidOperationException("Die als Singleton übergebene Klasse darf keinen öffentlichen Konstruktor besitzen.");
+            if (checkCtor != null)
+            {
+                throw new InvalidOperationException("Die als Singleton übergebene Klasse darf keinen öffentlichen Konstruktor besitzen.");
+            }
 
             // Threadsynchronisation
             lock (Lock)
@@ -76,7 +77,7 @@ namespace NetEti.Globals
                 }
 
                 // Neue Instanz über Reflektion erstellen
-                ConstructorInfo ctorInfo;
+                ConstructorInfo? ctorInfo;
 
                 // Geschützte Konstruktoren auslesen
                 ctorInfo = typeof(T).GetConstructor(
@@ -86,9 +87,13 @@ namespace NetEti.Globals
                             Type.EmptyTypes,
                             null
                           );
+                if (ctorInfo == null)
+                {
+                    throw new InvalidOperationException("Die als Singleton übergebene Klasse muss einen privaten Standard-Konstruktor besitzen.");
+                }
 
                 // Konstruktor ohne Parameter aufrufen
-                T _Instanz = null;
+                T? _Instanz = null;
                 try
                 {
                     _Instanz = (T)ctorInfo.Invoke(new object[] { });
@@ -105,11 +110,22 @@ namespace NetEti.Globals
                     }
                 }
 
+                if (_Instanz == null)
+                {
+                    throw new InvalidOperationException("Die übergebene Klasse konnte nicht instanziiert werden.");
+                }
+
                 // Instanz der Hashtabelle zuführen
                 Selfs.Add(typeof(T).GUID, _Instanz);
                 newInstance = true;
 
-                return (T)Selfs[typeof(T).GUID];
+                T? result = (T?)Selfs[typeof(T).GUID];
+                if (result == null)
+                {
+                    throw new InvalidOperationException("Interner Fehler beim Array-Zugriff.");
+                }
+
+                return result;
             }
         }
 

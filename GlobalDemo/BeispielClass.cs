@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NetEti.DemoApplications
+﻿namespace NetEti.DemoApplications
 {
     /// <summary>
     /// <para xml:lang="de">

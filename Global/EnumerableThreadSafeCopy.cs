@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NetEti.Globals
+﻿namespace NetEti.Globals
 {
     /// <summary>
     /// Statische Helper-Klasse - stellt eine statische Methode

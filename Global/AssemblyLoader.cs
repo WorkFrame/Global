@@ -1,7 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.IO;
-using System.Collections.Generic;
+﻿using System.Reflection;
 
 namespace NetEti.Globals
 {
@@ -53,10 +50,10 @@ namespace NetEti.Globals
         /// <param name="assemblyPathName">Die Assembly, die das zu ladende Objekt publiziert.</param>
         /// <param name="objectType">Der Typ des aus der Assembly zu instanzierenden Objekts</param>
         /// <returns>Instanz aus der übergebenen Assembly vom übergebenen Typ oder null</returns>
-        public object DynamicLoadObjectOfTypeFromAssembly(string assemblyPathName, Type objectType)
+        public object? DynamicLoadObjectOfTypeFromAssembly(string assemblyPathName, Type objectType)
         {
-            object candidate = null;
-            Assembly assembly = DynamicLoadAssembly(assemblyPathName);
+            object? candidate = null;
+            Assembly? assembly = DynamicLoadAssembly(assemblyPathName);
             if (assembly != null)
             {
                 Type[] exports = assembly.GetExportedTypes();
@@ -85,7 +82,7 @@ namespace NetEti.Globals
         /// </summary>
         /// <param name="assemblyPath">Pfad der zu ladenden Assembly.</param>
         /// <returns>Geladene Assembly oder null</returns>
-        public Assembly DynamicLoadAssembly(string assemblyPath)
+        public Assembly? DynamicLoadAssembly(string assemblyPath)
         {
             if (File.Exists(assemblyPath))
             {
@@ -98,19 +95,19 @@ namespace NetEti.Globals
 
         #region private members
 
-        private string _mainAssemblyDirectory;
+        private string? _mainAssemblyDirectory;
 
         /// <summary>
         /// Lädt die Assembly vom übergebenen Pfad.
         /// </summary>
         /// <param name="assemblyPath">Pfad der zu ladenden Assembly.</param>
         /// <returns>Geladene Assembly oder null</returns>
-        private Assembly dynamicLoadAssembly(string assemblyPath)
+        private Assembly? dynamicLoadAssembly(string assemblyPath)
         {
-            Assembly candidate = null;
+            Assembly? candidate = null;
             if (!File.Exists(assemblyPath))
             {
-                assemblyPath = Path.Combine(this._mainAssemblyDirectory, Path.GetFileName(assemblyPath));
+                assemblyPath = Path.Combine(this._mainAssemblyDirectory?? "", Path.GetFileName(assemblyPath));
             }
             if (File.Exists(assemblyPath))
             {
@@ -135,7 +132,7 @@ namespace NetEti.Globals
             currentDomain.AssemblyResolve += new ResolveEventHandler(myResolveEventHandler);
         }
 
-        private Assembly myResolveEventHandler(object sender, ResolveEventArgs args)
+        private Assembly? myResolveEventHandler(object? sender, ResolveEventArgs args)
         {
             return DynamicLoadAssembly(args.Name.Split(',')[0] + ".dll");
         }

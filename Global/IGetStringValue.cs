@@ -19,7 +19,7 @@
         /// <param name="key">Der Zugriffsschlüssel (string)</param>
         /// <param name="defaultValue">Das default-Ergebnis (string)</param>
         /// <returns>Der Ergebnis-String</returns>
-        string GetStringValue(string key, string defaultValue);
+        string? GetStringValue(string key, string? defaultValue);
 
         /// <summary>
         /// Liefert ein string-Array zu einem Key. Wenn es keinen Wert zu dem
@@ -28,7 +28,7 @@
         /// <param name="key">Der Zugriffsschlüssel (string)</param>
         /// <param name="defaultValues">Das default-Ergebnis (string[])</param>
         /// <returns>Das Ergebnis-String-Array</returns>
-        string[] GetStringValues(string key, string[] defaultValues);
+        string?[]? GetStringValues(string key, string?[]? defaultValues);
 
         /// <summary>
         /// Liefert einen beschreibenden Namen dieses StringValueGetters,

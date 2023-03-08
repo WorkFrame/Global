@@ -1,23 +1,16 @@
-﻿using System;
-using System.Windows.Forms;
-
 namespace NetEti.DemoApplications
 {
-    static class Program
+    internal static class Program
     {
         /// <summary>
-        /// <para xml:lang="de">
-        /// Der Haupteinstiegspunkt für die Anwendung.
-        /// </para>
-        /// <para xml:lang="en">
-        /// Main application-entrypoint.
-        /// </para>
+        ///  The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
             Application.Run(new Form1());
         }
     }

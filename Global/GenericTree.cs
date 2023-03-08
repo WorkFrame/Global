@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace NetEti.Globals
+﻿namespace NetEti.Globals
 {
     /// <summary>
     /// Stellt einen generischen Baum zur Verfügung
@@ -42,9 +37,9 @@ namespace NetEti.Globals
         /// </summary>
         /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Func&lt;int, T, object, object&gt;.</param>
         /// <returns>Das oberste UserObjekt für den Tree.</returns>
-        public object Traverse(Func<int, T, object, object> callback)
+        public object? Traverse(Func<int, T, object?, object?> callback)
         {
-            return this.traverse(0, callback, null);
+            return this.Traverse(0, callback, null);
         }
 
         /// <summary>
@@ -54,12 +49,12 @@ namespace NetEti.Globals
         /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Func&lt;int, T, object, object&gt;.</param>
         /// <param name="userParent">Ein User-Object, das rekursiv weitergeleitet und modifiziert wird.</param>
         /// <returns>Das oberste UserObjekt für den Tree.</returns>
-        protected virtual object traverse(int depth, Func<int, T, object, object> callback, object userParent)
+        protected virtual object? Traverse(int depth, Func<int, T, object?, object?> callback, object? userParent)
         {
-            object nextUserParent = callback(depth, (T)this, userParent);
+            object? nextUserParent = callback(depth, (T)this, userParent);
             foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
             {
-                child.traverse(depth + 1, callback, nextUserParent);
+                child.Traverse(depth + 1, callback, nextUserParent);
             }
             return nextUserParent;
         }
@@ -70,7 +65,7 @@ namespace NetEti.Globals
         /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;int, T&gt;.</param>
         public void Traverse(Action<int, T> callback)
         {
-            this.traverse(0, callback);
+            this.Traverse(0, callback);
         }
 
         /// <summary>
@@ -78,12 +73,12 @@ namespace NetEti.Globals
         /// </summary>
         /// <param name="depth">Die Hierarchie-Ebene.</param>
         /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;int, T&gt;.</param>
-        protected virtual void traverse(int depth, Action<int, T> callback)
+        protected virtual void Traverse(int depth, Action<int, T> callback)
         {
             callback(depth, (T)this);
             foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
             {
-                child.traverse(depth + 1, callback);
+                child.Traverse(depth + 1, callback);
             }
         }
 

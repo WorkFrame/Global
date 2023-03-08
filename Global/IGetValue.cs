@@ -19,7 +19,7 @@
         /// <param name="defaultValue">Das default-Ergebnis (string)</param>
         /// <typeparam name="T">Typ des konkreten Values.</typeparam> 
         /// <returns>Der Ergebnis-String</returns>
-        T GetValue<T>(string key, T defaultValue);
+        T? GetValue<T>(string key, T? defaultValue);
         
         /// <summary>
         /// Liefert ein string-Array zu einem Key. Wenn es keinen Wert zu dem
@@ -29,6 +29,6 @@
         /// <param name="defaultValues">Das default-Ergebnis (string[])</param>
         /// <typeparam name="T">Typ der konkreten Values.</typeparam> 
         /// <returns>Das Ergebnis-String-Array</returns>
-        T[] GetValues<T>(string key, T[] defaultValues);
+        T?[]? GetValues<T>(string key, T?[]? defaultValues);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Reflection;
 
 namespace NetEti.Globals
@@ -36,13 +35,6 @@ namespace NetEti.Globals
         public static T GetInstance<T>(out bool newInstance)
           where T : class // Jede Klasse ist erlaubt
         {
-            // Auf öffentlichen Konstruktor prüfen
-            ConstructorInfo checkCtor = (typeof(T)).GetConstructor(Type.EmptyTypes);
-
-            //if (checkCtor != null)
-            //  throw new InvalidOperationException("Die übergebene Klasse darf keinen öffentlichen Konstruktor besitzen.");
-
-            // Threadsynchronisation
             lock (Lock)
             {
                 /* direkte Übereinstimmung
@@ -67,7 +59,7 @@ namespace NetEti.Globals
                 */
 
                 // Neue Instanz über Reflektion erstellen
-                ConstructorInfo ctorInfo;
+                ConstructorInfo? ctorInfo;
 
                 // Geschützte Konstruktoren auslesen
                 ctorInfo = typeof(T).GetConstructor(
@@ -77,6 +69,10 @@ namespace NetEti.Globals
                             Type.EmptyTypes,
                             null
                           );
+                if (ctorInfo == null)
+                {
+                    throw new InvalidOperationException("Die als Singleton übergebene Klasse muss einen privaten Standard-Konstruktor besitzen.");
+                }
 
                 // Konstruktor ohne Parameter aufrufen
                 T _Instanz = (T)ctorInfo.Invoke(new object[] { });

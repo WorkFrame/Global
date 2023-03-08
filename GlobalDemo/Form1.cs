@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using NetEti.Globals;
+﻿using NetEti.Globals;
 
 namespace NetEti.DemoApplications
 {

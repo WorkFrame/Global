@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Management;
+﻿using System.Management;
 using System.Security;
 
 namespace NetEti.Globals
@@ -143,6 +140,10 @@ namespace NetEti.Globals
         /// </returns>
         public static string GetUniversalName(string sFilePath)
         {
+            if (!OperatingSystem.IsWindows())
+            {
+                throw new PlatformNotSupportedException("GetUniversalName ist nur für windows implementiert.");
+            }
             if (String.IsNullOrEmpty(sFilePath) || sFilePath.IndexOf(":", StringComparison.CurrentCulture) > 1
                 || sFilePath.StartsWith("\\\\", StringComparison.CurrentCulture))
             {
@@ -160,10 +161,11 @@ namespace NetEti.Globals
                + logicalDriveName + "'");
             foreach (ManagementObject managementObject in searcher.Get())
             {
-                string foundName = (managementObject["RemoteName"] as string).Trim();
+                string? remoteName = managementObject["RemoteName"] as string;
+                string foundName = remoteName?? "".Trim();
                 if (!foundName.Equals(orgName))
                 {
-                    uncName = managementObject["RemoteName"] as string;
+                    uncName = foundName;
                     break;
                 }
             }

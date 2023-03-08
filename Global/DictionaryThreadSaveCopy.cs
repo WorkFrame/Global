@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace NetEti.Globals
+﻿namespace NetEti.Globals
 {
     /// <summary>
     /// Statische Helper-Klasse - stellt statische generische Methoden
@@ -14,7 +12,7 @@ namespace NetEti.Globals
     /// </remarks>
     /// <typeparam name="T">Typ der IEnumerable-Keys.</typeparam> 
     /// <typeparam name="U">Typ der IEnumerable-Values.</typeparam> 
-    public static class DictionaryThreadSafeCopy<T, U>
+    public static class DictionaryThreadSafeCopy<T, U> where T : notnull
     {
         /// <summary>
         /// Kopiert thread-safe IDictionary&lt;T, U&gt; source auf IDictionary&lt;T, U&gt; target.
