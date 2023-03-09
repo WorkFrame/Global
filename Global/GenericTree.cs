@@ -15,18 +15,18 @@
         /// <summary>
         /// Liste der Kinder eines Knotens.
         /// </summary>
-        public List<T> Children { get; set; }
+        public List<T>? Children { get; set; }
 
         /// <summary>
         /// Der Besitzer des Knoten.
         /// </summary>
-        public GenericTree<T> Mother;
+        public GenericTree<T>? Mother;
 
         /// <summary>
         /// Konstruktor übernimmt das Mutter-Element.
         /// </summary>
         /// <param name="mother">Das Mutter-Element.</param>
-        public GenericTree(GenericTree<T> mother)
+        public GenericTree(GenericTree<T>? mother)
         {
             this.Mother = mother;
             this.Children = new List<T>();
@@ -52,9 +52,12 @@
         protected virtual object? Traverse(int depth, Func<int, T, object?, object?> callback, object? userParent)
         {
             object? nextUserParent = callback(depth, (T)this, userParent);
-            foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+            if (this.Children != null)
             {
-                child.Traverse(depth + 1, callback, nextUserParent);
+                foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+                {
+                    child.Traverse(depth + 1, callback, nextUserParent);
+                }
             }
             return nextUserParent;
         }
@@ -76,9 +79,12 @@
         protected virtual void Traverse(int depth, Action<int, T> callback)
         {
             callback(depth, (T)this);
-            foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+            if (this.Children != null)
             {
-                child.Traverse(depth + 1, callback);
+                foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
+                {
+                    child.Traverse(depth + 1, callback);
+                }
             }
         }
 
