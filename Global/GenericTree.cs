@@ -15,7 +15,7 @@
         /// <summary>
         /// Liste der Kinder eines Knotens.
         /// </summary>
-        public List<T>? Children { get; set; }
+        public List<T> Children { get; set; }
 
         /// <summary>
         /// Der Besitzer des Knoten.
@@ -56,7 +56,10 @@
             {
                 foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
                 {
-                    child.Traverse(depth + 1, callback, nextUserParent);
+                    if (!(child is IUndefinedElement))
+                    {
+                        child.Traverse(depth + 1, callback, nextUserParent);
+                    }
                 }
             }
             return nextUserParent;
@@ -83,7 +86,10 @@
             {
                 foreach (T child in EnumerableThreadSafeCopy<T>.GetEnumerableThreadSafeCopy(this.Children))
                 {
-                    child.Traverse(depth + 1, callback);
+                    if (!(child is IUndefinedElement))
+                    {
+                        child.Traverse(depth + 1, callback);
+                    }
                 }
             }
         }
@@ -93,12 +99,12 @@
         /// und ruft für jeden Knoten die Action auf.
         /// </summary>
         /// <param name="callback">Der für jeden Knoten aufzurufende Callback vom Typ Action&lt;T&gt;.</param>
-        public void climb2Top(Action<T> callback)
+        public void Climb2Top(Action<T> callback)
         {
             callback((T)this);
             if (this.Mother != null)
             {
-                Mother.climb2Top(callback);
+                Mother.Climb2Top(callback);
             }
         }
 

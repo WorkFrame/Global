@@ -153,7 +153,7 @@ namespace NetEti.Globals
             {
                 return (new Uri(sFilePath)).ToString().Trim();
             }
-            string logicalDriveName = (sFilePath + "  ").Substring(0, 2).ToUpper(System.Globalization.CultureInfo.CurrentCulture);
+            string logicalDriveName = (sFilePath + "  ")[..2].ToUpper(System.Globalization.CultureInfo.CurrentCulture);
             string uncName = logicalDriveName.Trim();
             string orgName = uncName;
             ManagementObjectSearcher searcher = new ManagementObjectSearcher(
@@ -180,7 +180,7 @@ namespace NetEti.Globals
                 }
                 Global._alreadySearchedDrives.Add(logicalDriveName, uncName);
             }
-            string sRemoteName = uncName + (sFilePath + "  ").Substring(2).Trim();
+            string sRemoteName = uncName + (sFilePath + "  ")[2..].Trim();
             // sFilePath = (new Uri(sRemoteName)).ToString().Trim();
             sFilePath = sRemoteName;
             return sFilePath.Trim();
@@ -348,17 +348,16 @@ namespace NetEti.Globals
         /// </returns>
         public static bool IsDate(string inputDate)
         {
-            DateTime dt;
-            return DateTime.TryParse(inputDate, out dt);
+            return DateTime.TryParse(inputDate, out _);
         }
 
         #endregion public members
 
         #region private members
 
-        private static Dictionary<string, string> _alreadySearchedDrives;
+        private static readonly Dictionary<string, string> _alreadySearchedDrives;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Standard-initialization doesn't work here")]
+        // [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1810:InitializeReferenceTypeStaticFieldsInline", Justification = "Standard-initialization doesn't work here")]
         static Global()
         {
             _alreadySearchedDrives = new Dictionary<string, string>();

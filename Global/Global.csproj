@@ -12,14 +12,18 @@
     <Authors>Erik Nagel</Authors>
     <Copyright>Copyright © $(Authors) 2012-2023</Copyright>
     <Company>NetEti</Company>
+    <PackageTags>NetEti Framework Global</PackageTags>
+    <AssemblyVersion>7.0.1.0</AssemblyVersion>
+    <FileVersion>7.0.1.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <Optimize>False</Optimize>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Management" Version="7.0.0" />
-  </ItemGroup>
+  <PropertyGroup>
+    <AssemblyRoot>$(ProjectDir)../../../ReadyBin/Assemblies</AssemblyRoot>
+  </PropertyGroup>
+  <Import Project="$(ProjectDir)../../AddOn/proj/*" Condition="exists('$(ProjectDir)../../AddOn/proj')" />
 
 </Project>
