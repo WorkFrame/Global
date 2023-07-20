@@ -8,8 +8,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>NetEti.$(MSBuildProjectName)</AssemblyName>
     <RootNamespace>NetEti.DemoApplications</RootNamespace>
-    <AssemblyVersion>7.0.1.0</AssemblyVersion>
-    <FileVersion>7.0.1.0</FileVersion>
+    <AssemblyVersion>7.0.1.1</AssemblyVersion>
+    <FileVersion>7.0.1.1</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
