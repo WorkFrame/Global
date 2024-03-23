@@ -351,6 +351,53 @@ namespace NetEti.Globals
             return DateTime.TryParse(inputDate, out _);
         }
 
+        /// <summary>
+        /// Kopiert ein Verzeichnis inklusive aller darin enthaltenen Dateien.
+        /// Wenn der Parameter "copySubDirs" auf true steht, werden auch alle
+        /// im Verzeichnis enthaltenen Unterverzeichnisse rekursiv mit kopiert.
+        /// </summary>
+        /// <param name="sourceDir">Das zu kopierende Verzeichnis.</param>
+        /// <param name="destDir">Der Ziel-Pfad.</param>
+        /// <param name="copySubDirs">Bei true werden auch Unterverzeichnisse rekursiv kopiert.</param>
+        /// <exception cref="DirectoryNotFoundException">Mögliche DirectoryNotFoundException.</exception>
+        public static void DirectoryCopy(string sourceDir, string destDir, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDir);
+            DirectoryInfo[] dirs = dir.GetDirectories();
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDir);
+            }
+
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDir))
+            {
+                Directory.CreateDirectory(destDir);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(destDir, file.Name);
+                file.CopyTo(temppath, true);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = Path.Combine(destDir, subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
+            }
+        }
+
         #endregion public members
 
         #region private members
