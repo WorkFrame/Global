@@ -27,7 +27,7 @@
   <Import Project="$(ProjectDir)../../AddOn/proj/*" Condition="exists('$(ProjectDir)../../AddOn/proj')" />
 
   <ItemGroup>
-    <PackageReference Include="System.Management" Version="7.0.1" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
